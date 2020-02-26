@@ -14,6 +14,7 @@ import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -33,15 +34,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
 
-
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
-
-/**
+/*
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
@@ -72,46 +69,43 @@ private int yellowcount = 0;
  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
-  WPI_TalonSRX rightController = new WPI_TalonSRX(12);
-  WPI_TalonSRX controlPannelMotor = new WPI_TalonSRX(13);
+ WPI_TalonSRX leftController = new WPI_TalonSRX(11);
+ WPI_TalonSRX rightController = new WPI_TalonSRX(12);
+ WPI_TalonSRX controlPannelMotor = new WPI_TalonSRX(13);
 
-  Joystick joy_silv = new Joystick(0);
+ Joystick joy_silv = new Joystick(0);
  // Joystick joy_blac = new Joystick(1);
 
-  XboxController Xbox = new XboxController(1);
+ XboxController Xbox = new XboxController(1);
 
-  DigitalInput magnet = new DigitalInput(0);
-  DigitalInput limit = new DigitalInput(1); 
+ DigitalInput magnet = new DigitalInput(0);
+ DigitalInput limit = new DigitalInput(1); 
 
-
-  @Override
+ @Override
   public void robotInit(){
   /*
   This function is run when the robot is first started up and should be used
   for any initialization code.
   */
   CameraServer.getInstance().startAutomaticCapture();
- 
+  
   m_colorMatcher.addColorMatch(kBlueTarget);
   m_colorMatcher.addColorMatch(kGreenTarget);
   m_colorMatcher.addColorMatch(kRedTarget);
   m_colorMatcher.addColorMatch(kYellowTarget);    
-}
-DifferentialDrive drive = new DifferentialDrive(leftController, rightController);
+ }
+  DifferentialDrive drive = new DifferentialDrive(leftController, rightController);
   
-  @Override
+ @Override
   public void autonomousInit() {
-  }
+ }
 
-  @Override
-  public void autonomousPeriodic() {
-    
-  }
+ @Override
+  public void autonomousPeriodic() {   
+ }
 
-  @Override
+ @Override
   public void teleopInit() {
-
 
     leftController.configFactoryDefault();
     rightController.configFactoryDefault();  
@@ -122,8 +116,8 @@ DifferentialDrive drive = new DifferentialDrive(leftController, rightController)
     drive.setRightSideInverted(false);
   
   }
-  
-@Override
+
+ @Override
   public void teleopPeriodic() {
   
     Color detectedColor = m_colorSensor.getColor();
@@ -142,42 +136,36 @@ DifferentialDrive drive = new DifferentialDrive(leftController, rightController)
     }
                
     checkcolor(colorString); //---> diff from colorStrin at bottom
-    System.out.println(redcount);
-   if (redcount >= ColorTarget || bluecount >= ColorTarget 
+     System.out.println(redcount);
+      if (redcount >= ColorTarget || bluecount >= ColorTarget 
             || yellowcount >= ColorTarget || greencount >= ColorTarget){
              // controlPannelMotor.set(0);
               System.out.println("done count");
-
-   }
-    magnet.get();
-    limit.get();
-    //double forward = +.8 * joy_blac.getY();
-    //double turn = +.8 * joy_blac.getZ();
-    //double backward = .8* joy_blac.getX();
+    }
+     magnet.get();
+     limit.get();
+     //double forward = +.8 * joy_blac.getY();
+     //double turn = +.8 * joy_blac.getZ();
+     //double backward = .8* joy_blac.getX();
      forward = +.8* Xbox.getY();  
      turn = +.8 * Xbox.getX();
      backward = +.8* Xbox.getY();
 
-    if (Math.abs(forward) < 0.4) {
+     if (Math.abs(forward) < 0.4) {
 			forward = 0;
     }
-    
+
     if (Math.abs(turn) < 0.4) {
 			turn = 0;
     }
 
-   if (joy_silv.getRawButton(1)==true) {
+    if (joy_silv.getRawButton(1)==true) {
     controlPannelMotor.set(.30);
-  }
-   else if (joy_silv.getRawButton(1)==false){
-   controlPannelMotor.set(0);
-   }
-
+    }
+    else if (joy_silv.getRawButton(1)==false){
+     controlPannelMotor.set(0);
+    }
   
-   
-
-
-
     System.out.println("JoyY:" + forward + "  turn:" + turn + " joyX " + backward);
     System.out.println("magnet:" + !magnet.get());  
     System.out.println("limit:" + limit.get());  
@@ -192,35 +180,36 @@ DifferentialDrive drive = new DifferentialDrive(leftController, rightController)
     SmartDashboard.putString("Detected Color", colorString);  
 
   }
-  @Override
+   @Override
   public void testInit() {
   }
 
   @Override
-  public void testPeriodic() {
+   public void testPeriodic() {
   }
-
-public void checkcolor (String funcolor){
- boolean read = false;
- if (read == false){
-  if (funcolor.equals("Red")){
-   redcount++;
-   read = true;
+  public void checkcolor (String fncolor){
+   boolean read = false;
+   if (read == false){
+   if (fncolor.equals("Red")){
+    redcount++;
+    read = true;
   }
-  else if (funcolor.equals("Blue")){
-   bluecount++;
-   read = true;
+    else if (fncolor.equals("Blue")){
+     bluecount++;
+     read = true;
   }
-  else if (funcolor.equals("Yellow")){
-   yellowcount++;
-   read = true;
+    else if (fncolor.equals("Yellow")){
+     yellowcount++;
+     read = true;
   }
-  else if (funcolor.equals("Green")){
-   greencount++;
-   read = true;
+    else if (fncolor.equals("Green")){
+     greencount++;
+     read = true;
   }
  } 
 }
+
+
 
 
 }
