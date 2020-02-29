@@ -74,7 +74,7 @@ private int yellowcount = 0;
  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
  Compressor compress = new Compressor(22);//this is to start the compresser code i used 22 couse it was in the phinex tuner CW
- 
+ //above code works well ndl
 
  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
  WPI_TalonSRX rightController = new WPI_TalonSRX(12);
