@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
 import java.sql.Driver;
 import java.sql.DriverAction;
 import javax.annotation.meta.When;
@@ -16,8 +17,11 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -33,6 +37,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.I2C;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
@@ -68,16 +73,25 @@ private int yellowcount = 0;
  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+ Compressor compress = new Compressor(22);
+
 
  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
  WPI_TalonSRX rightController = new WPI_TalonSRX(12);
  WPI_TalonSRX controlPannelMotor = new WPI_TalonSRX(13);
+ WPI_VictorSPX leftScrew = new WPI_VictorSPX(14);
+ WPI_VictorSPX rightScrew = new WPI_VictorSPX(15);
+ WPI_VictorSPX compressorSpx = new WPI_VictorSPX(16);
+ 
+ DoubleSolenoid exampleDouble = new DoubleSolenoid(0,1);
+boolean enabled = compress.enabled();
+boolean pressureSwitch = compress.getPressureSwitchValue();
+double current = compress.getCompressorCurrent();
 
- Joystick joy_silv = new Joystick(0);
- // Joystick joy_blac = new Joystick(1);
-
+ Joystick Joy = new Joystick(0);
  XboxController Xbox = new XboxController(1);
 
+ 
  DigitalInput magnet = new DigitalInput(0);
  DigitalInput limit = new DigitalInput(1); 
 
@@ -87,6 +101,11 @@ private int yellowcount = 0;
   This function is run when the robot is first started up and should be used
   for any initialization code.
   */
+
+  exampleDouble.set(kOff);
+  exampleDouble.set(kForward);
+  exampleDouble.set(kReverse);
+
   CameraServer.getInstance().startAutomaticCapture();
   
   m_colorMatcher.addColorMatch(kBlueTarget);
@@ -94,8 +113,9 @@ private int yellowcount = 0;
   m_colorMatcher.addColorMatch(kRedTarget);
   m_colorMatcher.addColorMatch(kYellowTarget);    
  }
+ 
   DifferentialDrive drive = new DifferentialDrive(leftController, rightController);
-  
+
  @Override
   public void autonomousInit() {
  }
@@ -136,11 +156,9 @@ private int yellowcount = 0;
     }
                
     checkcolor(colorString); //---> diff from colorStrin at bottom
-     System.out.println(redcount);
       if (redcount >= ColorTarget || bluecount >= ColorTarget 
             || yellowcount >= ColorTarget || greencount >= ColorTarget){
-             // controlPannelMotor.set(0);
-              System.out.println("done count");
+              controlPannelMotor.set(0);
     }
      magnet.get();
      limit.get();
@@ -159,17 +177,26 @@ private int yellowcount = 0;
 			turn = 0;
     }
 
-    if (joy_silv.getRawButton(1)==true) {
+    if (Joy.getRawButton(1)==true) {
     controlPannelMotor.set(.30);
     }
-    else if (joy_silv.getRawButton(1)==false){
+    else if (Joy.getRawButton(1)==false){
      controlPannelMotor.set(0);
     }
-  
+    if(Joy.getRawButton(2)==true){
+
+      exampleDouble.set(kOff);
+    }
+       if(Joy.getRawButton(4)==true) {
+        exampleDouble.set(kReverse);
+        System.out.println("nfdfbgbvmbxmcnmnfmsdnvmxncncnnnnnnnnxxssssadfasfknladJFHLD:HmznC");
+        
+      }
+      else if (Joy.getRawButton(3)==true){
+        exampleDouble.set(kForward);
+        System.out.println("ghjkkkkkkkooooooooooooooooooooooooooooooooooooooooooooooooo");
+      }
     System.out.println("JoyY:" + forward + "  turn:" + turn + " joyX " + backward);
-    System.out.println("magnet:" + !magnet.get());  
-    System.out.println("limit:" + limit.get());  
-    System.out.println("joystick_1:" + joy_silv.getTrigger());
 
     drive.arcadeDrive(forward, turn);
   
@@ -178,6 +205,7 @@ private int yellowcount = 0;
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);  
+    SmartDashboard.putBoolean("pressureSwitch:", enabled);
 
   }
    @Override
