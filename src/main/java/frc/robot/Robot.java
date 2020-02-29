@@ -73,8 +73,8 @@ private int yellowcount = 0;
  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
- Compressor compress = new Compressor(22);
-
+ Compressor compress = new Compressor(22);//this is to start the compresser code i used 22 couse it was in the phinex tuner CW
+ 
 
  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
  WPI_TalonSRX rightController = new WPI_TalonSRX(12);
@@ -105,7 +105,7 @@ double current = compress.getCompressorCurrent();
   exampleDouble.set(kOff);
   exampleDouble.set(kForward);
   exampleDouble.set(kReverse);
-
+//this stuff is for silodiods
   CameraServer.getInstance().startAutomaticCapture();
   
   m_colorMatcher.addColorMatch(kBlueTarget);
@@ -187,6 +187,7 @@ double current = compress.getCompressorCurrent();
 
       exampleDouble.set(kOff);
     }
+    //these if statemeants are for siolidois CW 2/29
        if(Joy.getRawButton(4)==true) {
         exampleDouble.set(kReverse);
         System.out.println("nfdfbgbvmbxmcnmnfmsdnvmxncncnnnnnnnnxxssssadfasfknladJFHLD:HmznC");
