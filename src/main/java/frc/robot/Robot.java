@@ -102,16 +102,24 @@ double current = compress.getCompressorCurrent();
   for any initialization code.
   */
 
+  //Bryce - Commented out Solonoid Stuff
+
+  /*
   exampleDouble.set(kOff);
   exampleDouble.set(kForward);
   exampleDouble.set(kReverse);
+  */
+
 //this stuff is for silodiods
   CameraServer.getInstance().startAutomaticCapture();
   
+  /*
   m_colorMatcher.addColorMatch(kBlueTarget);
   m_colorMatcher.addColorMatch(kGreenTarget);
   m_colorMatcher.addColorMatch(kRedTarget);
-  m_colorMatcher.addColorMatch(kYellowTarget);    
+  m_colorMatcher.addColorMatch(kYellowTarget);  
+  */
+  
  }
  
   DifferentialDrive drive = new DifferentialDrive(leftController, rightController);
@@ -139,7 +147,10 @@ double current = compress.getCompressorCurrent();
 
  @Override
   public void teleopPeriodic() {
-  
+
+  //Bryce - Commentted out the color detection
+
+  /*
     Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
@@ -160,6 +171,8 @@ double current = compress.getCompressorCurrent();
             || yellowcount >= ColorTarget || greencount >= ColorTarget){
               controlPannelMotor.set(0);
     }
+    */
+
      magnet.get();
      limit.get();
      //double forward = +.8 * joy_blac.getY();
@@ -201,12 +214,16 @@ double current = compress.getCompressorCurrent();
 
     drive.arcadeDrive(forward, turn);
   
+    //Bryce - Commented out other color things
+
+    /*
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);  
     SmartDashboard.putBoolean("pressureSwitch:", enabled);
+    */
 
   }
    @Override
@@ -216,6 +233,8 @@ double current = compress.getCompressorCurrent();
   @Override
    public void testPeriodic() {
   }
+
+  /*
   public void checkcolor (String fncolor){
    boolean read = false;
    if (read == false){
@@ -235,6 +254,7 @@ double current = compress.getCompressorCurrent();
      greencount++;
      read = true;
   }
+  */
  } 
 }
 
