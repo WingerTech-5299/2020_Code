@@ -65,6 +65,9 @@ private int yellowcount = 0;
  public CameraServer server;
  public VideoSource cam0;
 
+
+ //Bryce - Commented out other color sensor stuf
+ /*
  private final I2C.Port ColorPort = I2C.Port.kOnboard;
  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(ColorPort);
  private final ColorMatch m_colorMatcher = new ColorMatch();
@@ -74,6 +77,8 @@ private int yellowcount = 0;
  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
  Compressor compress = new Compressor(22);//this is to start the compresser code i used 22 couse it was in the phinex tuner CW
+ */
+
  //above code works well ndl
 
  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
@@ -83,10 +88,12 @@ private int yellowcount = 0;
  WPI_VictorSPX rightScrew = new WPI_VictorSPX(15);
  WPI_VictorSPX compressorSpx = new WPI_VictorSPX(16);
  
+/*
  DoubleSolenoid exampleDouble = new DoubleSolenoid(0,1);
-boolean enabled = compress.enabled();
-boolean pressureSwitch = compress.getPressureSwitchValue();
-double current = compress.getCompressorCurrent();
+ boolean enabled = compress.enabled();
+ boolean pressureSwitch = compress.getPressureSwitchValue();
+ double current = compress.getCompressorCurrent();
+ */
 
  Joystick Joy = new Joystick(0);
  XboxController Xbox = new XboxController(1);
@@ -141,7 +148,7 @@ double current = compress.getCompressorCurrent();
     leftController.setInverted(false);
     rightController.setInverted(true);
     
-    drive.setRightSideInverted(false);
+    //drive.setRightSideInverted(false); - This shouldn't be neccesary BE
   
   }
 
