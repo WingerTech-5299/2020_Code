@@ -207,6 +207,9 @@ private int yellowcount = 0;
 
       exampleDouble.set(kOff);
     }
+
+      
+      }
     //these if statemeants are for siolidois CW 2/29
        if(Joy.getRawButton(4)==true) {
         exampleDouble.set(kReverse);
