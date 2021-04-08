@@ -83,10 +83,11 @@ private int yellowcount = 0;
 
  WPI_TalonSRX leftController = new WPI_TalonSRX(11);
  WPI_TalonSRX rightController = new WPI_TalonSRX(12);
- WPI_TalonSRX controlPannelMotor = new WPI_TalonSRX(13);
- WPI_VictorSPX leftScrew = new WPI_VictorSPX(14);
- WPI_VictorSPX rightScrew = new WPI_VictorSPX(15);
- WPI_VictorSPX compressorSpx = new WPI_VictorSPX(16);
+//  WPI_TalonSRX controlPannelMotor = new WPI_TalonSRX(13);
+//  WPI_VictorSPX leftScrew = new WPI_VictorSPX(14);
+//  WPI_VictorSPX rightScrew = new WPI_VictorSPX(15);
+//  WPI_VictorSPX compressorSpx = new WPI_VictorSPX(16);
+// Commented 
  
 /*
  DoubleSolenoid exampleDouble = new DoubleSolenoid(0,1);
